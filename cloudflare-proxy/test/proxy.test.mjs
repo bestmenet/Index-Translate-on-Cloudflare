@@ -21,7 +21,7 @@ test('invalid or oversized input is rejected before upstream', async () => {
 });
 test('Trancy batch prompt survives; upstream never receives proxy key or cookies', async (t) => {
   t.mock.method(globalThis, 'fetch', async (url, init) => {
-    assert.equal(url, 'https://index-translate.bilibili.com/?p=/v1/chat/completions');
+    assert.equal(url, 'https://index-translate.bilibili.com/v1/chat/completions');
     assert.equal(init.redirect, 'manual'); // Workers does not implement redirect: error.
     const headers = new Headers(init.headers);
     assert.equal(headers.has('authorization'), false);

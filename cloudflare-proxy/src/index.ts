@@ -1,5 +1,5 @@
-// The official web demo uses this query route to satisfy its CDN allowlist.
-const UPSTREAM = "https://index-translate.bilibili.com/?p=/v1/chat/completions";
+// Use the public API path; the former web-demo ?p= route now returns HTTP 404.
+const UPSTREAM = "https://index-translate.bilibili.com/v1/chat/completions";
 const MODELS = ["Index-Translate-35B-A3B", "Index-Translate-9B", "Index-Translate-2B"];
 const MAX_BODY = 262144;
 const CORS = {

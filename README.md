@@ -15,7 +15,7 @@
 - 使用 Worker secret 保存个人代理密钥，校验 Bearer Token 或 `X-API-Key`，不向上游转发该密钥或浏览器 Cookie。
 - 自动设置 `temperature: 0` 和 `chat_template_kwargs.enable_thinking: false`，关闭模型思考输出。
 - 保留客户端提示词、HTML 标签和 Trancy 的 `%%` 段落分隔符。
-- 使用官方在线演示的查询路由；常规 `fetch` 遇到 HTTP 412 时，尝试通过 Workers 原生 TLS socket 连接同一官方域名，保持正常证书校验。
+- 使用官方标准 `/v1/chat/completions` 接口；常规 `fetch` 遇到 HTTP 412 时，尝试通过 Workers 原生 TLS socket 连接同一官方域名，保持正常证书校验。
 - 不缓存译文，代码不记录请求文本、API Key 或 Cookie。
 
 当前代理仅接受 `system`、`user`、`assistant` 角色的**文本消息**。上游模型的图片、音频等能力不在此代理的实现范围内。
@@ -179,7 +179,7 @@ JS
 
 ## 常见问题
 
-- **404 或接口无法识别**：检查 Trancy 中填写的是完整 `/v1/chat/completions` 地址。
+- **404 或接口无法识别**：检查 Trancy 中填写的是完整 `/v1/chat/completions` 地址。2026-11-01 已将服务端上游切换到标准 API 路径，原 `?p=/v1/chat/completions` 查询路由已返回 404；旧部署需更新代码并重新部署。
 - **401**：检查客户端 API Key 是否与部署到 Worker 的 `API_KEY` 一致；不要填写示例字符串。
 - **412**：代理会尝试 TLS socket 连接同一上游。若最终仍返回 412，说明本次请求仍被上游拒绝，需要等待上游恢复或检查其服务策略。
 - **429**：遵循上游 `Retry-After`，降低请求频率和并发。
